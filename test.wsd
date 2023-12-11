@@ -1,0 +1,52 @@
+@startuml Test
+autonumber
+skinparam maxMessageSize 120
+skinparam BoxPadding 0
+skinparam ParticipantPadding 25
+
+==Получение информации об агентах==
+ actor Посетитель as A
+box "РГС" #Green 
+    participant "Браузер" as B
+    participant "Битрикс" as C
+    participant "тест" as D
+end box 
+
+box "РГС-агенты" #Red
+    participant "агенты" as E
+    participant "шлюзы" as F
+    participant "АТС" as G
+end box
+
+A -> B : Открытие страницы с блоком "Карта с агентами"
+B -> D : GET запрос с данными об агентах
+loop
+D->E : Запрос информации об агентах
+E->D : Информация об агентах
+
+note left
+ФИО , номер телефона,
+координаты , линк на фото
+end note
+end
+==Получение внутреннего номера телефона==
+
+D->G : передача личного номера агента
+G-->D : присвоение внутреннего номера агента
+D->B : передача информации на фронт
+B->B : отображение информации об агентах
+
+note left
+ФИО, номер(внутренний),
+координаты, фото
+end note
+
+==Форма обратной связи==
+A -> B : заполнить форму обратной связи
+B->F : отправка данных
+note right
+из формы : ФИО, номер телефона
+время для звонка
+номер агента
+end note
+@enduml
